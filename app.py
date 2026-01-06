@@ -2,6 +2,27 @@
 import pandas as pd
 import pickle
 import os
+import streamlit as st
+import pickle
+import os
+
+# Fungsi untuk memuat model secara aman
+def load_model():
+    # Cek apakah file model.pkl ada di folder tersebut
+    if os.path.exists('model.pkl'):
+        with open('model.pkl', 'rb') as file:
+            model = pickle.load(file) # Di sinilah perintah load dijalankan
+        return model
+    else:
+        return None
+
+# Memanggil fungsi load_model
+model = load_model()
+
+if model is not None:
+    st.success("Model berhasil dimuat!")
+else:
+    st.error("File model.pkl tidak ditemukan. Pastikan sudah di-upload ke GitHub.")
 
 # 1. Judul dan Identitas (Penting untuk penilaian demo)
 st.title("UAS Bengkel Koding Data Science 2025/2026")
@@ -43,4 +64,5 @@ if st.button("Jalankan Prediksi"):
         prediction = model.predict(input_df)
         st.success(f"Hasil Prediksi Model Anda adalah: {prediction[0]}")
     else:
+
         st.error("File model.pkl tidak ditemukan! Pastikan sudah diunggah ke GitHub.")`
